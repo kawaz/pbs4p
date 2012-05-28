@@ -26,8 +26,8 @@ Dovecotで認証成功したクライアントのIPを記録する為、`dovecot
       }
     }
 
-Postfixで登録されたIPからのリレーを許可する為、`main.cf`で smtpd_recipient_restrictions や必要なら smtpd_client_restrictions の設定を変更します。
-以下はとあるサーバでの設定例です。check_client_accessを適切な位置に追加します。
+Postfixで登録されたIPからのリレーを許可する為、`main.cf`で`smtpd_recipient_restrictions`や必要なら`smtpd_client_restrictions`の設定を変更します。
+以下はとあるサーバでの設定例です。`check_client_access`を適切な位置に追加します。
 
     ## 接続元によるアクセス制御 (DNSBL)
     smtpd_client_restrictions =
@@ -55,9 +55,7 @@ Postfixで登録されたIPからのリレーを許可する為、`main.cf`で s
       ## オープンリレー禁止
       reject_unauth_destination
 
-期限切れのIP情報を削除する為、crontabに以下を追加します。`clean.sh`は第1引数に有効期限をしていすることが出来ます。デフォルトは`600`秒です。
+期限切れのIP情報を削除する為、crontabに以下を追加します。`clean.sh`は第1引数に有効期限を指定することが出来ます。デフォルトは`600`秒です。
 
     * * * * * /var/lib/pbs4p/bin/clean.sh
 
-=======
-PostfixでPOP before SMTPを利用するためのスクリプト
