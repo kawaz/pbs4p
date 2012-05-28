@@ -1,7 +1,7 @@
 pbs4p
 =====
 
-pbs4p は Postfix で POP before SMTP を利用する為のスクリプトです。
+Postfix で POP before SMTP を利用する為のスクリプトです。
 設定例はDovecotとの連携を前提に書いていますが、認証後に顔部プログラムを実行可能なメールサーバなら対応は簡単です。
 
 # セットアップ
@@ -30,7 +30,7 @@ Dovecotで認証成功したクライアントのIPを記録する為、`dovecot
 
 ## Postfixの設定
 Postfixで登録されたIPからのリレーを許可する為、`main.cf`で`smtpd_recipient_restrictions`や必要なら`smtpd_client_restrictions`の設定を変更します。
-以下はとあるサーバでの設定例です。`check_client_access`を適切な位置に追加します。
+以下はとあるサーバでの設定例です、`check_client_access`を適切な位置に追加しています。
 
     ## 接続元によるアクセス制御 (DNSBL)
     smtpd_client_restrictions =
@@ -64,7 +64,7 @@ Postfixで登録されたIPからのリレーを許可する為、`main.cf`で`s
     * * * * * /var/lib/pbs4p/bin/clean.sh
 
 
-## 処理の流れ
+# 処理の流れ
 1.  DovecotでPOP/IMAPの認証が成功すると`bin/record-ip.sh`が実行されて、リモートIPを`db/allow_clients.db`に記録する。
 2.  PostfixのsmtpdはリモートIPが`db/allow_clients.db`に記録されているかチェックして接続/リレー制御を行います。
 3.  Cronが実行する`bin/clean.sh`によって古いIP情報は削除される。
