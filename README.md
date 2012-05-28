@@ -53,3 +53,5 @@ Postfixで登録されたIPからのリレーを許可する為、`main.cf`で s
 
 期限切れのIP情報を削除する為、crontabに以下を追加します。`clean.sh`は第1引数に有効期限をしていすることが出来ます。デフォルトは`600`秒です。
     * * * * * /var/lib/pbs4p/bin/clean.sh
+=======
+PostfixでPOP before SMTPを利用するためのスクリプト
