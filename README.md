@@ -13,7 +13,7 @@ Postfix で POP before SMTP を利用する為のスクリプトです。
     postmap /var/lib/pbs4p/db/allow_clients
 
 ## Dovecotの設定
-Dovecotで認証成功したクライアントのIPを記録する為、`dovecot.conf`に以下の設定を追加します。
+認証成功したクライアントのIPを記録する為、`dovecot.conf`に以下の設定を追加します。
 
     service pop3 {
       executable = pop3 pbs4p-record-ip
@@ -29,7 +29,7 @@ Dovecotで認証成功したクライアントのIPを記録する為、`dovecot
     }
 
 ## Postfixの設定
-Postfixで登録されたIPからのリレーを許可する為、`main.cf`で`smtpd_recipient_restrictions`や必要なら`smtpd_client_restrictions`の設定を変更します。
+登録されたIPからのリレーを許可する為、`main.cf`で`smtpd_recipient_restrictions`や必要なら`smtpd_client_restrictions`の設定を変更します。
 以下はとあるサーバでの設定例です、`check_client_access`を適切な位置に追加しています。
 
     ## 接続元によるアクセス制御 (DNSBL)
@@ -59,13 +59,13 @@ Postfixで登録されたIPからのリレーを許可する為、`main.cf`で`s
       reject_unauth_destination
 
 ## Cronの設定
-期限切れのIP情報を削除する為、crontabに以下を追加します。`clean.sh`は第1引数に有効期限を指定することが出来ます。デフォルトは`600`秒です。
+期限切れのIP情報を削除する為、crontabに以下を追加します。`bin/clean.sh`は第1引数に有効期限を指定することが出来ます。デフォルトは`600`秒です。
 
     * * * * * /var/lib/pbs4p/bin/clean.sh
 
 
 # 処理の流れ
-1.  DovecotでPOP/IMAPの認証が成功すると`bin/record-ip.sh`が実行されて、リモートIPを`db/allow_clients.db`に記録する。
+1.  DovecotでPOP/IMAPの認証が成功すると`bin/record-ip.sh`が実行されて、リモートIPが`db/allow_clients.db`に記録されます。
 2.  PostfixのsmtpdはリモートIPが`db/allow_clients.db`に記録されているかチェックして接続/リレー制御を行います。
 3.  Cronが実行する`bin/clean.sh`によって古いIP情報は削除される。
 
