@@ -6,10 +6,9 @@ Postfix で POP before SMTP を利用する為のスクリプトです。
 
 # セットアップ
 
-まずは適当な場所に clone してファイルの権限設定をしておきます。
+まずは適当な場所に clone して空のDBを作成しておきます。
 
     git clone https://github.com/kawaz/pbs4p.git /var/lib/pbs4p
-    chgrp postfix /var/lib/pbs4p/db/allow_clients
     postmap /var/lib/pbs4p/db/allow_clients
 
 ## Dovecotの設定
